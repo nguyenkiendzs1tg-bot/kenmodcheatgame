@@ -1,0 +1,611 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KENMODCHEAT - Explore the Vault</title>
+  <style>
+    /* Reset & Base Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      position: relative;
+      overflow-x: hidden;
+      background-color: #000;
+    }
+
+    /* Hiển thị ảnh nền sắc nét toàn màn hình */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-image: url('https://cdn.phototourl.com/member/2026-10-09-f83fdb69-f4b8-45ed-ac8e-82e6083a7a5f.jpg');
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      z-index: -1;
+    }
+
+    /* Hiệu ứng cánh hoa anh đào (Sakura) */
+    .sakura-petal {
+      position: fixed;
+      top: -30px;
+      pointer-events: none;
+      z-index: 9999;
+      background: linear-gradient(135deg, #ffb7d5 0%, #ff8da1 100%);
+      border-radius: 100% 0% 100% 100%;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      opacity: 0.85;
+      animation: sakuraFall linear infinite, sakuraSway ease-in-out infinite alternate;
+    }
+
+    @keyframes sakuraFall {
+      0% {
+        top: -30px;
+      }
+      100% {
+        top: 105vh;
+      }
+    }
+
+    @keyframes sakuraSway {
+      0% {
+        transform: translateX(0) rotate(0deg) rotateY(0deg);
+      }
+      100% {
+        transform: translateX(60px) rotate(360deg) rotateY(180deg);
+      }
+    }
+
+    /* Container di động - Nền trong suốt */
+    .app-container {
+      width: 100%;
+      max-width: 480px;
+      background-color: transparent;
+      min-height: 100vh;
+      padding: 16px 20px 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-top: 8px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    }
+
+    .brand-icon {
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .menu-btn {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 4px;
+      color: #ffffff;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
+    }
+
+    /* Page Title */
+    h1.page-title {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Search Bar */
+    .search-box {
+      position: relative;
+      margin-bottom: 24px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #dddddd;
+      width: 18px;
+      height: 18px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 12px 16px 12px 42px;
+      background-color: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 14px;
+      font-size: 16px;
+      outline: none;
+      color: #ffffff;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .search-input::placeholder {
+      color: #e0e0e0;
+    }
+
+    /* Card List - Thẻ game Trong Suốt */
+    .cards-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .card {
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 20px;
+      padding: 12px;
+      background-color: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      transition: transform 0.2s ease, background-color 0.2s ease;
+      cursor: pointer;
+      display: block;
+    }
+
+    .card:active {
+      transform: scale(0.98);
+      background-color: rgba(255, 255, 255, 0.35);
+    }
+
+    .card-image-wrapper {
+      width: 100%;
+      height: 190px;
+      border-radius: 14px;
+      overflow: hidden;
+      background-color: rgba(0, 0, 0, 0.2);
+      margin-bottom: 12px;
+    }
+
+    .card-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .card-category {
+      font-size: 12px;
+      font-weight: 700;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+      opacity: 0.9;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: -0.2px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 40px 0;
+      color: #ffffff;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+      display: none;
+    }
+
+    /* Modal Overlay */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      z-index: 10000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Modal Card Content */
+    .modal-card {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      width: 100%;
+      max-width: 420px;
+      border-radius: 28px;
+      padding: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      transform: translateY(20px);
+      transition: transform 0.25s ease;
+    }
+
+    .modal-overlay.active .modal-card {
+      transform: translateY(0);
+    }
+
+    .modal-image-wrapper {
+      width: 100%;
+      height: 220px;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .modal-image-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .modal-category {
+      font-size: 12px;
+      font-weight: 700;
+      color: #6e6e73;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      padding: 0 8px;
+    }
+
+    .modal-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #111;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      padding: 0 8px;
+    }
+
+    .modal-tags {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      padding: 0 8px;
+    }
+
+    .badge {
+      background-color: rgba(0, 0, 0, 0.06);
+      color: #444;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 20px;
+    }
+
+    .modal-description {
+      font-size: 15px;
+      font-weight: 700;
+      color: #222;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      padding: 0 8px;
+      line-height: 1.4;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-download {
+      flex: 1;
+      background-color: #1a2d21;
+      color: #ffffff;
+      border: none;
+      border-radius: 16px;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-close {
+      width: 90px;
+      background-color: #ffffff;
+      color: #333;
+      border: 1px solid #e0e0e0;
+      border-radius: 16px;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nhạc nền ngầm -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="https://files.catbox.moe/0gtjtp.m4a" type="audio/mp4">
+  </audio>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header>
+      <div class="brand">
+        KENMODCHEAT® <span class="brand-icon">✱</span>
+      </div>
+      <button class="menu-btn" aria-label="Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Title -->
+    <h1 class="page-title">Explore the Vault</h1>
+
+    <!-- Search Bar -->
+    <div class="search-box">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="text" id="searchInput" class="search-input" placeholder="Search games...">
+    </div>
+
+    <!-- Game List -->
+    <div class="cards-list" id="cardsList">
+      
+      <!-- Liên Quân Mobile -->
+      <div class="card" 
+           data-title="AOV MAP CHẤP TỐ" 
+           data-category="ACTION"
+           data-image="https://cdn.phototourl.com/member/2026-10-09-dbc78f27-4612-45f4-8ae0-14e01bcb846d.jpg"
+           data-version="Version 2.0.0"
+           data-size="169.27MB"
+           data-desc="MAP CỰC NHIỀU CHỨC NĂNG"
+           data-link="https://zufile.com/download/yblomQdYQp">
+        <div class="card-image-wrapper">
+          <img class="card-image" src="https://cdn.phototourl.com/member/2026-10-09-dbc78f27-4612-45f4-8ae0-14e01bcb846d.jpg" alt="Liên Quân Mobile">
+        </div>
+        <div class="card-category">ACTION</div>
+        <div class="card-title">AOV MAP CHẤP TỐ</div>
+      </div>
+
+      <!-- PUBG Mobile -->
+      <div class="card" 
+           data-title="PUBG MOBILE" 
+           data-category="ACTION"
+           data-image="https://cdn.phototourl.com/member/2026-10-09-e537d8e7-d005-4cc2-8c6a-d6f7509e0eb3.png"
+           data-version="Version 1.0.0"
+           data-size="106.63MB"
+           data-desc="UPDATE ONLINE TẢI 1 LẦN SÀI CẢ MÙA"
+           data-link="https://api.tung.bet/PUBG.apk">
+        <div class="card-image-wrapper">
+          <img class="card-image" src="https://cdn.phototourl.com/member/2026-10-09-e537d8e7-d005-4cc2-8c6a-d6f7509e0eb3.png" alt="PUBG Mobile">
+        </div>
+        <div class="card-category">ACTION</div>
+        <div class="card-title">PUBG MOBILE</div>
+      </div>
+
+      <!-- Blood Strike -->
+      <div class="card" 
+           data-title="BLOOD STRIKE" 
+           data-category="ACTION"
+           data-image="https://cdn.phototourl.com/member/2026-10-09-0efa8765-49f4-411e-b9d9-5e24cb3eade5.jpg"
+           data-version="Version 11.0.0"
+           data-size="123.6MB"
+           data-desc="ESP - AIM ...."
+           data-link="https://zufile.com/download/VnYgke3wFi">
+        <div class="card-image-wrapper">
+          <img class="card-image" src="https://cdn.phototourl.com/member/2026-10-09-0efa8765-49f4-411e-b9d9-5e24cb3eade5.jpg" alt="Blood Strike">
+        </div>
+        <div class="card-category">ACTION</div>
+        <div class="card-title">BLOOD STRIKE</div>
+      </div>
+
+      <!-- FC Mobile -->
+      <div class="card" 
+           data-title="FC MOBILE" 
+           data-category="SPORTS"
+           data-image="https://cdn.phototourl.com/member/2026-10-09-b9d2279b-3117-444c-8bc3-8316c3b783e0.jpg"
+           data-version="Version 3.0.0"
+           data-size="169.27MB"
+           data-desc="ĐẦY ĐỦ CHỨC NĂNG"
+           data-link="https://zufile.com/download/WvaIW40Kxu">
+        <div class="card-image-wrapper">
+          <img class="card-image" src="https://cdn.phototourl.com/member/2026-10-09-b9d2279b-3117-444c-8bc3-8316c3b783e0.jpg" alt="FC Mobile">
+        </div>
+        <div class="card-category">SPORTS</div>
+        <div class="card-title">FC MOBILE</div>
+      </div>
+
+    </div>
+
+    <div id="noResults" class="no-results">
+      Không tìm thấy game tương ứng
+    </div>
+  </div>
+
+  <!-- Pop-up Download Modal -->
+  <div class="modal-overlay" id="downloadModal">
+    <div class="modal-card">
+      <div class="modal-image-wrapper">
+        <img id="mImage" src="" alt="Game Detail">
+      </div>
+      <div class="modal-category" id="mCategory">ACTION</div>
+      <div class="modal-title" id="mTitle">GAME TITLE</div>
+      
+      <div class="modal-tags">
+        <span class="badge" id="mVersion">Version 1.0.0</span>
+        <span class="badge" id="mSize">100MB</span>
+      </div>
+
+      <div class="modal-description" id="mDesc">
+        MÔ TẢ CHI TIẾT
+      </div>
+
+      <div class="modal-actions">
+        <a id="mDownloadLink" href="#" target="_blank" class="btn-download">Download APK</a>
+        <button class="btn-close" id="btnClose">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Tự động phát nhạc
+    const bgMusic = document.getElementById('bgMusic');
+    
+    function playAudio() {
+      bgMusic.play().then(() => {
+        document.removeEventListener('click', playAudio);
+        document.removeEventListener('touchstart', playAudio);
+      }).catch(() => {});
+    }
+
+    window.addEventListener('load', () => {
+      bgMusic.play().catch(() => {
+        document.addEventListener('click', playAudio);
+        document.addEventListener('touchstart', playAudio);
+      });
+    });
+
+    // Tạo cánh hoa anh đào
+    function createSakuraPetals() {
+      const petalCount = 20;
+      for (let i = 0; i < petalCount; i++) {
+        const petal = document.createElement('div');
+        petal.classList.add('sakura-petal');
+        
+        const size = Math.random() * 8 + 12;
+        petal.style.width = `${size}px`;
+        petal.style.height = `${size * 1.2}px`;
+        petal.style.left = `${Math.random() * 100}vw`;
+        
+        const fallDuration = Math.random() * 5 + 6;
+        const swayDuration = Math.random() * 3 + 2;
+        
+        petal.style.animationDuration = `${fallDuration}s, ${swayDuration}s`;
+        petal.style.animationDelay = `${Math.random() * 5}s, ${Math.random() * 2}s`;
+
+        document.body.appendChild(petal);
+      }
+    }
+    createSakuraPetals();
+
+    // DOM Elements
+    const searchInput = document.getElementById('searchInput');
+    const cards = document.querySelectorAll('.card');
+    const noResults = document.getElementById('noResults');
+
+    const modal = document.getElementById('downloadModal');
+    const mImage = document.getElementById('mImage');
+    const mCategory = document.getElementById('mCategory');
+    const mTitle = document.getElementById('mTitle');
+    const mVersion = document.getElementById('mVersion');
+    const mSize = document.getElementById('mSize');
+    const mDesc = document.getElementById('mDesc');
+    const mDownloadLink = document.getElementById('mDownloadLink');
+    const btnClose = document.getElementById('btnClose');
+
+    // Mở Modal
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const title = card.getAttribute('data-title');
+        const category = card.getAttribute('data-category');
+        const image = card.getAttribute('data-image');
+        const version = card.getAttribute('data-version');
+        const size = card.getAttribute('data-size');
+        const desc = card.getAttribute('data-desc');
+        const link = card.getAttribute('data-link');
+
+        mTitle.textContent = title;
+        mCategory.textContent = category || 'ACTION';
+        mImage.src = image;
+        mVersion.textContent = version;
+        mSize.textContent = size;
+        mDesc.textContent = desc;
+        mDownloadLink.href = link;
+
+        if(!category) {
+          mCategory.style.display = 'none';
+        } else {
+          mCategory.style.display = 'block';
+        }
+
+        modal.classList.add('active');
+      });
+    });
+
+    // Đóng Modal
+    btnClose.addEventListener('click', () => {
+      modal.classList.remove('active');
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+      }
+    });
+
+    // Tìm kiếm game
+    searchInput.addEventListener('input', function(e) {
+      const searchTerm = e.target.value.toLowerCase().trim();
+      let hasMatches = false;
+
+      cards.forEach(card => {
+        const title = card.getAttribute('data-title').toLowerCase();
+        if (title.includes(searchTerm)) {
+          card.style.display = 'block';
+          hasMatches = true;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      noResults.style.display = hasMatches ? 'none' : 'block';
+    });
+  </script>
+</body>
+</html>
